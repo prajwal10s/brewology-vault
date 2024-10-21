@@ -7,6 +7,7 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 const url: string = process.env.MONGODB_URL || "";
+app.use(express.json());
 connectToMongoDB(url);
 
 app.get("/", (req, res) => {
