@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import express, { Router, Request, Response } from "express";
+import express, { Router, Request, Response, response } from "express";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const generateHashedPwd = async (pwd: string) => {
@@ -65,4 +65,13 @@ export const deleteUSer = async (req: Request, res: Response) => {
       .status(500)
       .json({ message: `The user doesn't exist ${error.message}`, error });
   }
+};
+
+export const checkUser = async (req: Request, res: Response) => {
+  const { userName, password } = req.body;
+  const user = User.findOne({ userName: userName });
+  console.log(user);
+  // bcrypt.compare(password, user.password, function (err, result) {
+  //   // result == true
+  // });
 };
