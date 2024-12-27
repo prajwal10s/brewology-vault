@@ -1,8 +1,6 @@
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { setFlagsFromString } from "v8";
-import { access } from "fs";
 axios.defaults.baseURL = "http://localhost:3001";
 
 interface LoginFormData {
@@ -20,10 +18,11 @@ const Login: React.FC = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/login");
+      console.log(formData);
+      const response = await axios.post("/user/login", formData);
       if (response.status === 201) {
         console.log("Login successfull");
-        navigate("/login");
+        navigate("/home");
       }
     } catch (error) {
       console.error("There was an error submitting", error);

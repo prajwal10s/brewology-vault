@@ -1,7 +1,8 @@
-import { User } from "../models/user";
+import { User } from "../models/user"; // Model import
 import express, { Router, Request, Response, response } from "express";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
 const generateHashedPwd = async (pwd: string) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -69,9 +70,13 @@ export const deleteUSer = async (req: Request, res: Response) => {
 
 export const checkUser = async (req: Request, res: Response) => {
   const { userName, password } = req.body;
-  const user = User.findOne({ userName: userName });
-  console.log(user);
-  // bcrypt.compare(password, user.password, function (err, result) {
-  //   // result == true
-  // });
+  try {
+    const user: any = await User.findOne({ userName });
+    console.log(user);
+    const match = await bcrypt.compare(password, user.password);
+    console.log(match);
+    if (match) res.status(201).json({ message: "Temp fn called successfully" });
+  } catch (error: any) {
+    res.status(500).json({ message: `The user not found ${error.message}` });
+  }
 };
