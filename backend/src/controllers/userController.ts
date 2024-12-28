@@ -1,5 +1,12 @@
+import { MiddlewareOptions } from "mongoose";
 import { User } from "../models/user"; // Model import
-import express, { Router, Request, Response, response } from "express";
+import express, {
+  Router,
+  Request,
+  Response,
+  response,
+  NextFunction,
+} from "express";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -13,62 +20,72 @@ const generateHashedPwd = async (pwd: string) => {
   }
 };
 
-export const testFn = async (req: Request, res: Response) => {
-  // try {
-  //   const hash = await generateHashedPwd("Prj!");
-  //   res.json('Password encrypted');
-  // } catch (error) {
-  //   res.status(500).json({ message: "Error encrypting password", error });
-  // }
-  res.json("This is a test route");
-};
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const users = await User.find();
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching users", error });
+    res.status(500);
+    next(error);
   }
 };
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const user = User.findById(req.params.id);
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "User not found", error });
+    res.status(500);
+    next(error);
   }
 };
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { userName, password, role, email } = req.body;
-    if (!userName || !password || !email)
-      res.status(400).json({ message: "Please enter all required details" });
-    if (role != "admin" && role != "mod" && role != "user")
-      res.status(400).json({ message: "Role mentioned is incorrect" });
+    if (role !== "admin" || role !== "user" || role !== "mod") {
+      return next("Role can only be admin, mod or user");
+    }
     const pwdHashed = await generateHashedPwd(password);
     const newUser = new User({ userName, role, password: pwdHashed, email });
     await newUser.save();
     res.status(201).json({ message: "User added successfully", user: newUser });
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ messsage: `Error creating user ${error.message}`, error });
+    res.status(500);
+    next(error);
   }
 };
 
-export const deleteUSer = async (req: Request, res: Response) => {
+export const deleteUSer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const user = User.findById(req.body.id);
     res.status(201).json({ message: "User deleted successfully", user: user });
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: `The user doesn't exist ${error.message}`, error });
+    res.status(500);
+    next(error);
   }
 };
 
-export const checkUser = async (req: Request, res: Response) => {
+export const checkUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { userName, password } = req.body;
   try {
     const user: any = await User.findOne({ userName });
@@ -77,6 +94,7 @@ export const checkUser = async (req: Request, res: Response) => {
     console.log(match);
     if (match) res.status(201).json({ message: "Temp fn called successfully" });
   } catch (error: any) {
-    res.status(500).json({ message: `The user not found ${error.message}` });
+    res.status(500);
+    next(error);
   }
 };
