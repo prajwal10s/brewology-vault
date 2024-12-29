@@ -4,6 +4,7 @@ import cors from "cors";
 import connectToMongoDB from "./connection";
 import * as dotenv from "dotenv";
 import userRoutes from "./routes/user";
+import recipeRoutes from "./routes/recipe";
 
 dotenv.config();
 const app: Application = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRoutes);
+app.use("/recipe", recipeRoutes);
 app.listen(PORT, () => {
   console.log(`App is listening on port ${PORT}`);
 });

@@ -27,7 +27,7 @@ export const getAllUsers = async (
 ) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500);
     next(error);
@@ -40,7 +40,7 @@ export const getUser = async (
 ) => {
   try {
     const user = User.findById(req.params.id);
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500);
     next(error);
@@ -54,7 +54,7 @@ export const addUser = async (
 ) => {
   try {
     const { userName, password, role, email } = req.body;
-    if (role !== "admin" || role !== "user" || role !== "mod") {
+    if (role !== "admin" && role !== "user" && role !== "mod") {
       return next("Role can only be admin, mod or user");
     }
     const pwdHashed = await generateHashedPwd(password);
