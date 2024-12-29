@@ -9,6 +9,7 @@ interface recipeInterface extends Document {
   grind: "very coarse" | "coarse" | "fine" | "very fine";
   grind_specs: String;
   recipe: String;
+  owner: Schema.Types.ObjectId;
 }
 const recipeSchema = new Schema<recipeInterface>({
   hot: { type: Boolean, required: true },
@@ -19,6 +20,7 @@ const recipeSchema = new Schema<recipeInterface>({
   grind: { type: String, required: true },
   grind_specs: { type: String, required: true },
   recipe: { type: String, required: true },
+  owner: { type: Schema.Types.ObjectId, required: true, ref: "User" },
 });
 
 export const Recipe = model("Recipe", recipeSchema);
