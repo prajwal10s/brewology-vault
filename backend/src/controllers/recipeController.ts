@@ -9,7 +9,7 @@ export const getAllRecipes = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.params.ownerid;
+  const owner = req.query.owner;
   try {
     const recipes = await Recipe.find({ owner: owner });
     console.log(recipes);
@@ -24,13 +24,8 @@ export const getRecipe = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.params.ownerid;
-  const recipe = req.body.recipeid;
   try {
-    const resultRecipe = await Recipe.find({
-      $and: [{ owner: owner }, { recipe: recipe }],
-    });
-    console.log(resultRecipe);
+    const resultRecipe = await Recipe.findById(req.params.id);
     res.status(200).json(resultRecipe);
   } catch (error) {
     next(error);
@@ -42,7 +37,8 @@ export const addRecipe = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.params.ownerid;
+  const owner = req.query.owner;
+  console.log(owner);
   try {
     const {
       hot,
@@ -79,12 +75,8 @@ export const deleteRecipe = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.params.ownerid;
-  const recipe = req.body.recipeid;
   try {
-    const resultRecipe = await Recipe.find({
-      $and: [{ owner: owner }, { recipe: recipe }],
-    });
+    const resultRecipe = await Recipe.deleteOne({ _id: req.body.id });
     console.log(resultRecipe);
     res
       .status(200)

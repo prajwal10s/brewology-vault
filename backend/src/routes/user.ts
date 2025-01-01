@@ -3,7 +3,7 @@ import {
   getAllUsers,
   getUser,
   addUser,
-  deleteUSer,
+  deleteUser,
   checkUser,
 } from "../controllers/userController";
 
@@ -12,6 +12,6 @@ router.get("/", getAllUsers);
 router.get("/:id", getUser);
 router.post("/add", addUser);
 router.post("/login", checkUser);
-router.delete("/:id", deleteUSer);
+router.delete("/delete", deleteUser);
 
 export default router;
