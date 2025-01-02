@@ -1,35 +1,21 @@
-import { NextFunction } from "express";
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+import { decodeSession } from "./session";
 
-interface Session {
-  id: number;
-  userName: string;
-}
-
-export const encodeSession = async (secretKey: string, session: Session) => {
-  try {
-    const token: string = await sign(
-      {
-        iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + 10 * 60,
-        data: session,
-      },
-      secretKey
-    );
-    return token;
-  } catch (error) {
-    return `Error : ${error}`;
-  }
-};
-export const decodeSession: String | JwtPayload = (
-  secretKey: string,
-  token: string
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-  try {
-    const session: String | JwtPayload = verify(token, secretKey);
-    console.log(session);
-    return session;
-  } catch (error: any) {
-    return error.message;
+  const unauthorized = (message: string) => {
+    res.status(401).json({
+      ok: false,
+      status: 401,
+      message: message,
+    });
+  };
+  const token = req.get("X-JWT-Token");
+  if (!token) {
+    unauthorized(`Required ${token} not found`);
+    return;
   }
 };

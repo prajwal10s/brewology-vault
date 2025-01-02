@@ -1,12 +1,6 @@
 import { MiddlewareOptions } from "mongoose";
 import { User } from "../models/user"; // Model import
-import express, {
-  Router,
-  Request,
-  Response,
-  response,
-  NextFunction,
-} from "express";
+import express, { Router, Request, Response, NextFunction } from "express";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
