@@ -1,9 +1,11 @@
 import { MiddlewareOptions } from "mongoose";
 import { User } from "../models/user"; // Model import
 import express, { Router, Request, Response, NextFunction } from "express";
+import { encodeSession } from "../middleware/session";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
+import * as dotenv from "dotenv";
+dotenv.config();
 const generateHashedPwd = async (pwd: string) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -75,7 +77,7 @@ export const deleteUser = async (
   }
 };
 
-export const checkUser = async (
+export const loginUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -85,8 +87,18 @@ export const checkUser = async (
     const user: any = await User.findOne({ userName });
     console.log(user);
     const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      res.status(401).json({ message: "Please check your credentials" });
+      return;
+    }
     console.log(match);
-    if (match) res.status(201).json({ message: "Temp fn called successfully" });
+    const secretKey = process.env.SECRET_KEY || "";
+    const session = await encodeSession(secretKey, {
+      id: user._id,
+      userName: user.userName,
+    });
+    console.log(session);
+    res.status(200).json(session);
   } catch (error: any) {
     res.status(500);
     next(error);
