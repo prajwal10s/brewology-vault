@@ -85,19 +85,16 @@ export const loginUser = async (
   const { userName, password } = req.body;
   try {
     const user: any = await User.findOne({ userName });
-    console.log(user);
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       res.status(401).json({ message: "Please check your credentials" });
       return;
     }
-    console.log(match);
     const secretKey = process.env.SECRET_KEY || "";
     const session = await encodeSession(secretKey, {
       id: user._id,
       userName: user.userName,
     });
-    console.log(session);
     res.status(200).json(session);
   } catch (error: any) {
     res.status(500);
