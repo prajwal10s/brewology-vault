@@ -1,6 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import { Recipe } from "../models/recipe";
-
+const { ObjectId } = require("mongoose").mongo;
 //for now the functionality will be that you are able to create your own recipes and then view/delete them\
 //later on feed can be added.
 
@@ -9,10 +9,12 @@ export const getAllRecipes = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.query.owner;
+  const owner: string = res.locals.session.data.id || req.query.owner || "";
+  if (!owner) {
+    res.status(404).json({ message: "owner not found" });
+  }
   try {
-    const recipes = await Recipe.find({ owner: owner });
-    console.log(recipes);
+    const recipes = await Recipe.find({ owner: new ObjectId(owner) });
     res.status(200).json(recipes);
   } catch (error) {
     next(error);

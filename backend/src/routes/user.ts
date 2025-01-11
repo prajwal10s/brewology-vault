@@ -6,10 +6,10 @@ import {
   deleteUser,
   loginUser,
 } from "../controllers/userController";
-import { authMiddlewareUser } from "../middleware/auth";
+import { authMiddlewareAdmin, authMiddlewareUser } from "../middleware/auth";
 
 const router = express.Router();
-router.get("/", getAllUsers);
+router.get("/", authMiddlewareAdmin, getAllUsers);
 router.get("/:id", authMiddlewareUser, getUser);
 router.post("/add", addUser);
 router.post("/login", loginUser);

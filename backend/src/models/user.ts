@@ -5,7 +5,7 @@ interface IUser extends Document {
   userName: String;
   password: String;
   email: String;
-  role: "admin" | "user" | "mod";
+  role: "admin" | "user";
   createdAt: Date;
 }
 const userSchema = new Schema<IUser>({

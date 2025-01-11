@@ -1,6 +1,12 @@
 import { MiddlewareOptions } from "mongoose";
 import { User } from "../models/user"; // Model import
-import express, { Router, Request, Response, NextFunction } from "express";
+import express, {
+  Router,
+  Request,
+  Response,
+  NextFunction,
+  CookieOptions,
+} from "express";
 import { encodeSession } from "../middleware/session";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -50,27 +56,13 @@ export const addUser = async (
 ) => {
   try {
     const { userName, password, role, email } = req.body;
-    if (role !== "admin" && role !== "user" && role !== "mod") {
-      return next("Role can only be admin, mod or user");
+    if (role !== "admin" && role !== "user") {
+      return next("Role can only be admin or user");
     }
     const pwdHashed = await generateHashedPwd(password);
     const newUser = new User({ userName, role, password: pwdHashed, email });
     await newUser.save();
     res.status(201).json({ message: "User added successfully", user: newUser });
-  } catch (error: any) {
-    res.status(500);
-    next(error);
-  }
-};
-
-export const deleteUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const user = await User.deleteOne({ _id: req.body.id });
-    res.status(201).json({ message: "User deleted successfully", user: user });
   } catch (error: any) {
     res.status(500);
     next(error);
@@ -95,7 +87,28 @@ export const loginUser = async (
       id: user._id,
       userName: user.userName,
     });
-    res.status(200).json(session);
+    let options: CookieOptions = {
+      maxAge: 1000 * 60 * 15, // expire after 15 minutes
+      httpOnly: true, // Cookie will not be exposed to client side code
+      sameSite: "strict", // If client and server origins are different
+      secure: true, // use with HTTPS only
+    };
+    res.cookie("token", session, options);
+    res.status(200).json({ message: "Session created and cookie generated" });
+  } catch (error: any) {
+    res.status(500);
+    next(error);
+  }
+};
+
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.deleteOne({ _id: req.body.id });
+    res.status(201).json({ message: "User deleted successfully", user: user });
   } catch (error: any) {
     res.status(500);
     next(error);

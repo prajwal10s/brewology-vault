@@ -9,7 +9,7 @@ export const encodeSession = async (secretKey: string, session: Session) => {
     const token: string = await sign(
       {
         iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + 10 * 60,
+        exp: Math.floor(Date.now() / 1000) + 15 * 60,
         data: session,
       },
       secretKey

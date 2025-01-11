@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectToMongoDB from "./connection";
 import * as dotenv from "dotenv";
 import userRoutes from "./routes/user";
@@ -15,10 +16,13 @@ app.use(
   cors({
     origin: "http://localhost:3000", // Only allow requests from your frontend
     methods: "GET,POST", // Allow only certain HTTP methods
+    credentials: true,
   })
 );
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+
 connectToMongoDB(url);
 
 app.get("/", (req, res) => {

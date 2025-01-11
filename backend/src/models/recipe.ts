@@ -23,4 +23,4 @@ const recipeSchema = new Schema<recipeInterface>({
   owner: { type: Schema.Types.ObjectId, required: true, ref: "User" },
 });
 
-export const Recipe = model("Recipe", recipeSchema);
+export const Recipe = model<recipeInterface>("Recipe", recipeSchema);

@@ -17,7 +17,8 @@ export const authMiddlewareUser = (
       message: message,
     });
   };
-  const token = req.get("X-JWT-Token");
+
+  const token: string = req.cookies["token"] || req.get("X-JWT-Token") || "";
   if (!token) {
     unauthorized(`Required token not found`);
     return;
@@ -31,7 +32,7 @@ export const authMiddlewareUser = (
   // Set the session on response.locals object for routes to access
   res.locals = {
     ...res.locals,
-    session: Session,
+    session: decodeResult.session,
   };
   // Request has a valid session. Call next to continue to the authenticated route handler
   next();
@@ -49,7 +50,7 @@ export const authMiddlewareAdmin = async (
       message: message,
     });
   };
-  const token = req.get("X-JWT-Token");
+  const token = req.cookies["token"] || req.get("X-JWT-Token") || "";
   if (!token) {
     unauthorized(`Required token not found`);
     return;
@@ -72,7 +73,7 @@ export const authMiddlewareAdmin = async (
   } else {
     res.locals = {
       ...res.locals,
-      session: Session,
+      session: decodeResult.session,
     };
     // Request has a valid or renewed session. Call next to continue to the authenticated route handler
     next();
