@@ -18,12 +18,13 @@ const Login: React.FC = () => {
   ) => {
     e.preventDefault();
     try {
-      console.log(formData);
-      const response = await axios.post("/user/login", formData);
-      if (response.status === 201) {
-        console.log("Login successfull");
+      const response = await axios.post("/user/login", formData, {
+        withCredentials: true,
+      });
+      if (response.status !== 200) {
         navigate("/home");
       }
+      navigate("/recipe");
     } catch (error) {
       console.error("There was an error submitting", error);
     }
