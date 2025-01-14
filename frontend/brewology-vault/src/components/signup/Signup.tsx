@@ -41,54 +41,76 @@ const Signup: React.FC = () => {
     }
   };
   return (
-    <div className="Signup-page">
-      <h1>Signup Page</h1>
-      <form id="signupForm" onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="userName"
-            value={formData.userName}
-            onChange={handleChange}
-            required
+    <div className="flex h-screen bg-zinc-200 bg-[url('../assets/coffee_1.jpg')]">
+      <div className="w-full max-w-sm m-auto bg-zinc-300 rounded-2xl p-5">
+        <header>
+          <img
+            className="w-20 mx-auto mb-5"
+            src="https://img.icons8.com/?size=100&id=iFHZuXB_CtBs&format=png&color=000000"
           />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Role:</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
+        </header>
+        <form id="loginForm" onSubmit={handleSubmit}>
+          <div>
+            <label className="block mb-2 text-amber-700" id="userName">
+              Username
+            </label>
+            <input
+              className="w-fit p-2 mb-6 bg-gray-300 border-b-2 border-amber-700 outline-none focus:bg-gray-300"
+              type="text"
+              name="userName"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-amber-700" id="password">
+              Email
+            </label>
+            <input
+              className="w-fit p-2 mb-6 bg-gray-300 border-b-2 border-amber-700 outline-none focus:bg-gray-300"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-amber-700" id="password">
+              Password
+            </label>
+            <input
+              className="w-fit p-2 mb-6 bg-gray-300 border-b-2 border-amber-700 outline-none focus:bg-gray-300"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <button
+              className="w-auto max-w-full min-w-28 font-bold text-gray-300 bg-amber-800 rounded-2xl"
+              type="submit"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+        <footer>
+          {/* <a
+            className="bg-gray-300 text-amber-700 hover:text-pink-700 text-sm float-left"
+            href="/signup"
           >
-            <option value="user">User</option>
-            <option value="mod">Moderator</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
+            Forgot Password?
+          </a> */}
+          <a
+            className="bg-gray-300 text-amber-700 text-sm float-end pt-2"
+            href="/login"
+          >
+            Already have an account? <span className="underline">Login</span>
+          </a>
+        </footer>
+      </div>
     </div>
   );
 };
