@@ -2,36 +2,55 @@ import React, {
   ChangeEvent,
   MouseEventHandler,
   SyntheticEvent,
+  useEffect,
   useState,
 } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 axios.defaults.baseURL = "http://localhost:3001";
 
 interface LoginFormData {
   userName: string;
   password: string;
 }
+const ErrorHandlingComponent = () => {
+  const navigate = useNavigate();
+
+  const handleError = () => {
+    const errorMessage = "Invalid credentials. Please try again!";
+    navigate("/login", { state: { error: errorMessage } });
+  };
+
+  return <button onClick={handleError}>Simulate Login Error</button>;
+};
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    if (location.state?.error) {
+      setError(location.state.error);
+      navigate("/login", { replace: true, state: null });
+    }
+  }, [error, navigate]);
+
   const [formData, setFormData] = useState<LoginFormData>({
     userName: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const handleSubmit = async (
-    e: SyntheticEvent<HTMLInputElement | HTMLFormElement>
-  ) => {
+
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post("/user/login", formData, {
         withCredentials: true,
       });
-      if (response.status !== 200) {
-        navigate("/home");
+      if (response.status === 200) {
+        navigate("/recipe");
       }
-      navigate("/recipe");
     } catch (error) {
-      console.error("There was an error submitting", error);
+      const errorMessage = "Incorrect Credentials! Please try again";
+      navigate("/login", { state: { error: errorMessage } });
     }
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +102,7 @@ const Login: React.FC = () => {
               Login
             </button>
           </div>
+          <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
         </form>
         <footer>
           {/* <a
