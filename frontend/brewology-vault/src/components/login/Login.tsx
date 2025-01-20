@@ -13,26 +13,18 @@ interface LoginFormData {
   userName: string;
   password: string;
 }
-const ErrorHandlingComponent = () => {
-  const navigate = useNavigate();
 
-  const handleError = () => {
-    const errorMessage = "Invalid credentials. Please try again!";
-    navigate("/login", { state: { error: errorMessage } });
-  };
-
-  return <button onClick={handleError}>Simulate Login Error</button>;
-};
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     if (location.state?.error) {
       setError(location.state.error);
       navigate("/login", { replace: true, state: null });
     }
-  }, [error, navigate]);
+  }, [location.state, navigate]);
 
   const [formData, setFormData] = useState<LoginFormData>({
     userName: "",
@@ -102,7 +94,9 @@ const Login: React.FC = () => {
               Login
             </button>
           </div>
-          <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
+          <div>
+            {error && <p style={{ color: "red", margin: "2px" }}>{error}</p>}
+          </div>
         </form>
         <footer>
           {/* <a
