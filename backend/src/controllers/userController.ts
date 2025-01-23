@@ -11,6 +11,7 @@ import { encodeSession } from "../middleware/session";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 import * as dotenv from "dotenv";
+import { sendEmail } from "../emails/emailsetup";
 dotenv.config();
 const generateHashedPwd = async (pwd: string) => {
   try {
@@ -111,6 +112,21 @@ export const deleteUser = async (
     res.status(201).json({ message: "User deleted successfully", user: user });
   } catch (error: any) {
     res.status(500);
+    next(error);
+  }
+};
+export const testEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log("trying to send email");
+    await sendEmail("xyz@gmail.com");
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    res.status(500);
+    console.log(error);
     next(error);
   }
 };

@@ -4,7 +4,7 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3001";
 interface SignupFormData {
   password: string;
-  role: "user" | "mod" | "admin";
+  role: "user" | "admin";
   userName: string;
   email: string;
 }
