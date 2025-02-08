@@ -30,11 +30,9 @@ const Signup: React.FC = () => {
   ) => {
     e.preventDefault();
     try {
-      console.log(formData);
       const response = await axios.post("/user/add", formData);
       if (response.status === 201) {
-        console.log("Signup successfull");
-        navigate("/login");
+        navigate("/registrationSuccess");
       }
     } catch (error) {
       console.error("Signup failed: ", error);

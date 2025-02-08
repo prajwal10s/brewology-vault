@@ -40,8 +40,8 @@ const Login: React.FC = () => {
       if (response.status === 200) {
         navigate("/recipe");
       }
-    } catch (error) {
-      const errorMessage = "Incorrect Credentials! Please try again";
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || "Please try again";
       navigate("/login", { state: { error: errorMessage } });
     }
   };

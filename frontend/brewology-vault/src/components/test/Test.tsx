@@ -5,7 +5,6 @@ const Test: React.FC = () => {
   const testFunc = async () => {
     try {
       const response = await axios.post("/user/sendEmail");
-      console.log(response);
     } catch (error) {
       console.error(
         "There was an issue sending the email! Please try again later."

@@ -60,9 +60,27 @@ export const addUser = async (
     if (role !== "admin" && role !== "user") {
       return next("Role can only be admin or user");
     }
+
     const pwdHashed = await generateHashedPwd(password);
-    const newUser = new User({ userName, role, password: pwdHashed, email });
-    await newUser.save();
+    const newUser = new User({
+      userName,
+      role,
+      password: pwdHashed,
+      email,
+      isActive: false,
+    });
+    try {
+      await newUser.save();
+    } catch (error) {
+      res.status(500);
+      next(error);
+    }
+    try {
+      await sendEmail(email);
+    } catch (error) {
+      res.status(500);
+      next(error);
+    }
     res.status(201).json({ message: "User added successfully", user: newUser });
   } catch (error: any) {
     res.status(500);
@@ -78,9 +96,20 @@ export const loginUser = async (
   const { userName, password } = req.body;
   try {
     const user: any = await User.findOne({ userName });
+    if (!user) {
+      res.status(401).json({
+        message: "User does not exist. Please recheck or register",
+      });
+    }
+    if (user.isActive === false) {
+      res.status(401).json({
+        message:
+          "Please click on the registration mail sent to your registered email id",
+      });
+    }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      res.status(401).json({ message: "Please check your credentials" });
+      res.status(401).json({ message: "Please check your password" });
       return;
     }
     const secretKey = process.env.SECRET_KEY || "";
@@ -121,12 +150,10 @@ export const testEmail = async (
   next: NextFunction
 ) => {
   try {
-    console.log("trying to send email");
-    await sendEmail("xyz@gmail.com");
+    await sendEmail("peajie25@gmail.com");
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     res.status(500);
-    console.log(error);
     next(error);
   }
 };

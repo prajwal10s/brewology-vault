@@ -6,6 +6,7 @@ import Signup from "./components/signup/Signup";
 import HomePage from "./components/homepage/Homepage";
 import Recipe from "./components/recipe/recipe";
 import Test from "./components/test/Test";
+import RegistrationVerification from "./components/registrationverification/RegistrationVerification";
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,10 @@ function App() {
           <Route path="/home" element={<HomePage />}></Route>
           <Route path="/recipe" element={<Recipe />}></Route>
           <Route path="/test" element={<Test />}></Route>
+          <Route
+            path="/registrationSuccess"
+            element={<RegistrationVerification />}
+          ></Route>
         </Routes>
       </Router>
     </div>
