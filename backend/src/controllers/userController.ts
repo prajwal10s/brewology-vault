@@ -60,7 +60,6 @@ export const addUser = async (
     if (role !== "admin" && role !== "user") {
       return next("Role can only be admin or user");
     }
-
     const pwdHashed = await generateHashedPwd(password);
     const newUser = new User({
       userName,
@@ -76,7 +75,7 @@ export const addUser = async (
       next(error);
     }
     try {
-      await sendEmail(email);
+      await sendEmail(email, userName);
     } catch (error) {
       res.status(500);
       next(error);
@@ -140,19 +139,6 @@ export const deleteUser = async (
     const user = await User.deleteOne({ _id: req.body.id });
     res.status(201).json({ message: "User deleted successfully", user: user });
   } catch (error: any) {
-    res.status(500);
-    next(error);
-  }
-};
-export const testEmail = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await sendEmail("peajie25@gmail.com");
-    res.status(200).json({ message: "Email sent successfully" });
-  } catch (error) {
     res.status(500);
     next(error);
   }

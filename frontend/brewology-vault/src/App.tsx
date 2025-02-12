@@ -7,6 +7,7 @@ import HomePage from "./components/homepage/Homepage";
 import Recipe from "./components/recipe/recipe";
 import Test from "./components/test/Test";
 import RegistrationVerification from "./components/registrationverification/RegistrationVerification";
+import VerifyEmail from "./components/verifyEmail/VerifyEmail";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
           <Route path="/home" element={<HomePage />}></Route>
           <Route path="/recipe" element={<Recipe />}></Route>
           <Route path="/test" element={<Test />}></Route>
+          <Route path="/verify/:token" element={<VerifyEmail />}></Route>
           <Route
             path="/registrationSuccess"
             element={<RegistrationVerification />}

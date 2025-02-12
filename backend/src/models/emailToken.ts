@@ -1,11 +1,14 @@
 import { Schema, model, Document } from "mongoose";
 interface emailToken extends Document {
-  user: Schema.Types.ObjectId;
+  userName: String;
   token: String;
 }
 const emailTokenSchema = new Schema<emailToken>({
-  user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+  userName: { type: String, required: true },
   token: { type: String, required: true },
 });
 
-export const emailTokenModel = model<emailToken>("Recipe", emailTokenSchema);
+export const emailTokenModel = model<emailToken>(
+  "emailToken",
+  emailTokenSchema
+);
