@@ -26,12 +26,24 @@ export const sendEmail = async (toEmail: string, userName: string) => {
     console.log(error);
   }
   try {
+    const link = `${process.env.URL}/verify/${randString}`;
     await sgMail.send({
       to: toEmail,
       from: process.env.senderEmail || "",
-      subject: "Trying email setup with Sendgrid",
-      text: `Please click on link to verify email address. 
-            localhost:3000/verify/${randString}`,
+      templateId: process.env.template_id || "",
+      trackingSettings: {
+        clickTracking: {
+          enable: false,
+          enableText: false,
+        },
+        openTracking: {
+          enable: false,
+        },
+      },
+      dynamicTemplateData: {
+        userName: userName,
+        dynamic_url: link || "",
+      },
     });
   } catch (error) {
     console.log("Error sending verification email");

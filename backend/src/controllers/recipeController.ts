@@ -40,7 +40,6 @@ export const addRecipe = async (
   next: NextFunction
 ) => {
   const owner = req.query.owner;
-  console.log(owner);
   try {
     const {
       hot,
@@ -79,7 +78,6 @@ export const deleteRecipe = async (
 ) => {
   try {
     const resultRecipe = await Recipe.deleteOne({ _id: req.body.id });
-    console.log(resultRecipe);
     res
       .status(200)
       .json({ message: "Recipe deleted Successfully", recipe: resultRecipe });
