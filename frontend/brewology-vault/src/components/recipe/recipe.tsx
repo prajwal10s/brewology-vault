@@ -21,9 +21,11 @@ const Recipe: React.FC = () => {
     getRecipes();
   }, []);
   return (
-    <div className="recipes">
+    <div className="px-2 pt-4 pb-2">
       {recipeData.map((recipe, index) => (
-        <RecipeCard key={index} recipeData={recipe} />
+        <div className="inline-block mx-2">
+          <RecipeCard key={index} recipeData={recipe} />
+        </div>
       ))}
     </div>
   );

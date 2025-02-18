@@ -11,16 +11,19 @@ interface recipeInterface extends Document {
   recipe: String;
   owner: Schema.Types.ObjectId;
 }
-const recipeSchema = new Schema<recipeInterface>({
-  hot: { type: Boolean, required: true },
-  milk_based: { type: Boolean, required: true },
-  equipment: { type: String, required: true },
-  beans: String,
-  roast: String,
-  grind: { type: String, required: true },
-  grind_specs: { type: String, required: true },
-  recipe: { type: String, required: true },
-  owner: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-});
+const recipeSchema = new Schema<recipeInterface>(
+  {
+    hot: { type: Boolean, required: true },
+    milk_based: { type: Boolean, required: true },
+    equipment: { type: String, required: true },
+    beans: String,
+    roast: String,
+    grind: { type: String, required: true },
+    grind_specs: { type: String, required: true },
+    recipe: { type: String, required: true },
+    owner: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+  },
+  { timestamps: true }
+);
 
 export const Recipe = model<recipeInterface>("Recipe", recipeSchema);

@@ -3,10 +3,13 @@ interface emailToken extends Document {
   userName: String;
   token: String;
 }
-const emailTokenSchema = new Schema<emailToken>({
-  userName: { type: String, required: true },
-  token: { type: String, required: true },
-});
+const emailTokenSchema = new Schema<emailToken>(
+  {
+    userName: { type: String, required: true },
+    token: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 export const emailTokenModel = model<emailToken>(
   "emailToken",
