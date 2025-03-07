@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import bgImage from "../../assets/background/coffee_1.jpg";
 axios.defaults.baseURL = "http://localhost:3001";
 const Test: React.FC = () => {
   const testFunc = async () => {
@@ -12,7 +13,14 @@ const Test: React.FC = () => {
     }
   };
   return (
-    <div className="flex h-screen bg-zinc-200 bg-[url('../assets/coffee_1.jpg')]">
+    <div
+      className="flex h-screen bg-zinc-200"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <h1>This is a Test page</h1>
       <div className="bg-left-top">
         <button

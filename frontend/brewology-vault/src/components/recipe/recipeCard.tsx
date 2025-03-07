@@ -8,7 +8,7 @@ const RecipeCard: React.FC<{ recipeData: recipePropsType }> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
+    <div className="bg-orange-100 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
       <img
         className="w-full h-48 object-cover"
         src={coffeeImage}

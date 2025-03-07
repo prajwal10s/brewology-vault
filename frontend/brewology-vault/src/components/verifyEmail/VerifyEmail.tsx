@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import bgImage from "../../assets/background/coffee_1.jpg";
 axios.defaults.baseURL = "http://localhost:3001";
 const VerifyEmail: React.FC = () => {
   const [success, setSuccess] = useState(true);
@@ -21,7 +22,14 @@ const VerifyEmail: React.FC = () => {
     verify();
   });
   return (
-    <div className="flex h-screen bg-zinc-200 bg-[url('../assets/coffee_1.jpg')]">
+    <div
+      className="flex h-screen bg-zinc-200"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="w-full max-w-sm m-auto bg-zinc-300 rounded-2xl p-5">
         <header>
           <img

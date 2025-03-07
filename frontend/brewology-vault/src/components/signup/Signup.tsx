@@ -1,7 +1,10 @@
 import React, { ChangeEvent, useState, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import bgImage from "../../assets/background/coffee_1.jpg";
+
 axios.defaults.baseURL = "http://localhost:3001";
+
 interface SignupFormData {
   password: string;
   role: "user" | "admin";
@@ -39,7 +42,14 @@ const Signup: React.FC = () => {
     }
   };
   return (
-    <div className="flex h-screen bg-zinc-200 bg-[url('../assets/coffee_1.jpg')]">
+    <div
+      className="flex h-screen bg-zinc-200"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="w-full max-w-sm m-auto bg-zinc-300 rounded-2xl p-5">
         <header>
           <img
