@@ -8,6 +8,7 @@ import Journal from "./components/journal/journal";
 import Test from "./components/test/Test";
 import RegistrationVerification from "./components/registrationverification/RegistrationVerification";
 import VerifyEmail from "./components/verifyEmail/VerifyEmail";
+import CreateRecipe from "./components/createRecipe/CreateRecipe";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,8 @@ function App() {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/home" element={<HomePage />}></Route>
           <Route path="/journal" element={<Journal />}></Route>
+          <Route path="createRecipe" element={<CreateRecipe />}></Route>
+
           <Route path="/test" element={<Test />}></Route>
           <Route path="/verify/:token" element={<VerifyEmail />}></Route>
           <Route
