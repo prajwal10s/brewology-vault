@@ -130,6 +130,21 @@ export const loginUser = async (
   }
 };
 
+export const logoutUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true, // Use true in production with HTTPS
+    sameSite: "strict", // Prevent CSRF attacks
+    path: "/", // Ensure cookie is cleared across the entire site
+  });
+  console.log("Cookie Deleted");
+  res.status(200).json({ message: "Logged out successfully!" });
+};
+
 export const deleteUser = async (
   req: Request,
   res: Response,

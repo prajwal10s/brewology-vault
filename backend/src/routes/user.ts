@@ -5,6 +5,7 @@ import {
   addUser,
   deleteUser,
   loginUser,
+  logoutUser,
 } from "../controllers/userController";
 import { authMiddlewareAdmin, authMiddlewareUser } from "../middleware/auth";
 import { verifyEmail } from "../emails/emailsetup";
@@ -16,5 +17,6 @@ router.post("/add", addUser);
 router.post("/login", loginUser);
 router.delete("/delete", authMiddlewareUser, deleteUser);
 router.get("/verify/:token", verifyEmail);
+router.post("/logout", authMiddlewareUser, logoutUser);
 
 export default router;

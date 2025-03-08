@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  MouseEventHandler,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import bgImage from "../../assets/background/coffee_1.jpg";
@@ -40,7 +34,7 @@ const Login: React.FC = () => {
         withCredentials: true,
       });
       if (response.status === 200) {
-        navigate("/recipe");
+        navigate("/journal");
       }
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || "Please try again";
