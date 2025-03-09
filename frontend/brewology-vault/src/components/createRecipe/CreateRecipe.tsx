@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
-import FloatingBeans from "../journal/floatingBeans";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
+axios.defaults.baseURL = "http://localhost:3001";
 const CreateRecipe: React.FC = () => {
   const [recipeData, setRecipeData] = useState({
     equipment: "",
     beans: "",
-    roast: "",
+    roast: "dark",
     grind: "coarse",
     grind_specs: "",
     recipe: "",
@@ -15,7 +17,10 @@ const CreateRecipe: React.FC = () => {
     milk_based: false,
   });
 
+  const navigate = useNavigate();
+
   // Handle input changes
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -34,10 +39,18 @@ const CreateRecipe: React.FC = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Submitting Recipe:", recipeData);
     // TODO: Send data to backend and save in DB
+    try {
+      const response = await axios.post("/recipe/add", recipeData, {
+        withCredentials: true,
+      });
+      if (response.status === 201) {
+        navigate("/journal");
+      }
+    } catch (error) {}
   };
 
   return (
@@ -49,7 +62,7 @@ const CreateRecipe: React.FC = () => {
             Create Coffee Recipe
           </h1>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Equipment & Beans in One Row */}
+            {/* Equipment & Beans in One Row for smaller layout */}
             <div className="flex space-x-4">
               <div className="w-1/2">
                 <label className="block text-sm mb-1">Equipment</label>
@@ -74,7 +87,7 @@ const CreateRecipe: React.FC = () => {
               </div>
             </div>
 
-            {/* Roast & Grind in One Row */}
+            {/* Roast & Grind in One Row for smaller layout*/}
             <div className="flex space-x-4">
               <div className="w-1/2">
                 <label className="block text-sm mb-1">Roast Level</label>
@@ -112,7 +125,9 @@ const CreateRecipe: React.FC = () => {
 
             {/* Grind Specs */}
             <div>
-              <label className="block text-sm mb-1">Grind Specifications</label>
+              <label className="block text-sm mb-1">
+                Grind Specifications (Grinder & Settings){" "}
+              </label>
               <input
                 type="text"
                 name="grind_specs"

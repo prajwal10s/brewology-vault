@@ -16,16 +16,16 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/home" element={<HomePage />}></Route>
           <Route path="/journal" element={<Journal />}></Route>
           <Route path="createRecipe" element={<CreateRecipe />}></Route>
-
           <Route path="/test" element={<Test />}></Route>
           <Route path="/verify/:token" element={<VerifyEmail />}></Route>
           <Route
             path="/registrationSuccess"
             element={<RegistrationVerification />}
           ></Route>
+          <Route path="/explore" element={<HomePage />}></Route>
+          <Route path="/" element={<HomePage />}></Route>
         </Routes>
       </Router>
     </div>

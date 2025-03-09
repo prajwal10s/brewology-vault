@@ -39,7 +39,7 @@ export const addRecipe = async (
   res: Response,
   next: NextFunction
 ) => {
-  const owner = req.query.owner;
+  const owner = res.locals.session.data.id || req.query.owner || "";
   try {
     const {
       hot,
@@ -67,6 +67,7 @@ export const addRecipe = async (
       .status(201)
       .json({ message: "Recipe created successfully", recipe: resultRecipe });
   } catch (error) {
+    res.status(400).json({ message: "Error while submitting your recipe!" });
     next(error);
   }
 };

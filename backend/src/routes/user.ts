@@ -17,6 +17,6 @@ router.post("/add", addUser);
 router.post("/login", loginUser);
 router.delete("/delete", authMiddlewareUser, deleteUser);
 router.get("/verify/:token", verifyEmail);
-router.post("/logout", authMiddlewareUser, logoutUser);
+router.post("/logout", logoutUser);
 
 export default router;

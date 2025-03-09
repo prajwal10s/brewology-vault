@@ -12,7 +12,6 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     try {
       await axios.post("/user/logout", {}, { withCredentials: true }); // Backend should clear the cookie
-      console.log("Cookie deleted successfully!!");
       document.cookie =
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Manually clear the cookie
       navigate("/login"); // Redirect to login page
@@ -23,7 +22,7 @@ const Header: React.FC = () => {
   return (
     <header className="bg-gray-900 text-white shadow-md">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold tracking-wide">
+        <Link to="/explore" className="text-2xl font-bold tracking-wide">
           Brewology Vault
         </Link>
         <nav className="flex items-center space-x-6">
@@ -35,14 +34,14 @@ const Header: React.FC = () => {
             <span>Create</span>
           </button>
           <Link
-            to="/recipes"
+            to="/explore"
             className={`hover:text-gray-300 ${
               isActive("/recipes")
                 ? "text-teal-400 border-b-2 border-teal-400"
                 : ""
             }`}
           >
-            Recipes
+            Explore
           </Link>
           <Link
             to="/journal"

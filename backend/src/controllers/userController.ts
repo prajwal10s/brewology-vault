@@ -141,7 +141,6 @@ export const logoutUser = async (
     sameSite: "strict", // Prevent CSRF attacks
     path: "/", // Ensure cookie is cleared across the entire site
   });
-  console.log("Cookie Deleted");
   res.status(200).json({ message: "Logged out successfully!" });
 };
 

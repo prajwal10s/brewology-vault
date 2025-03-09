@@ -30,7 +30,7 @@ const Journal: React.FC = () => {
         <FloatingBeans />
         <div className="relative p-6 rounded-lg">
           {recipeData.map((recipe, index) => (
-            <div className="inline-block mx-2" key={index}>
+            <div className="inline-block mx-2 my-2" key={index}>
               <RecipeCard recipeData={recipe} />
             </div>
           ))}
