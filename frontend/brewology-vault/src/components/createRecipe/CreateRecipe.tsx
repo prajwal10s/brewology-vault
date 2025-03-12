@@ -2,20 +2,14 @@ import React, { SyntheticEvent, useState } from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { recipePropsType } from "../journal/recipeType";
 
 axios.defaults.baseURL = "http://localhost:3001";
 const CreateRecipe: React.FC = () => {
-  const [recipeData, setRecipeData] = useState({
-    equipment: "",
-    beans: "",
-    roast: "dark",
-    grind: "coarse",
-    grind_specs: "",
-    recipe: "",
-    hot: false,
-    milk_based: false,
-  });
+  const location = useLocation();
+  const recipeInfo = location.state.recipe;
+  const [recipeData, setRecipeData] = useState(recipeInfo);
 
   const navigate = useNavigate();
 
@@ -32,7 +26,7 @@ const CreateRecipe: React.FC = () => {
     const updatedValue =
       type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
 
-    setRecipeData((prev) => ({
+    setRecipeData((prev: recipePropsType) => ({
       ...prev,
       [name]: updatedValue,
     }));
@@ -50,7 +44,9 @@ const CreateRecipe: React.FC = () => {
       if (response.status === 201) {
         navigate("/journal");
       }
-    } catch (error) {}
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (

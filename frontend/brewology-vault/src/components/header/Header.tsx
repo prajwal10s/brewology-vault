@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react"; // Import pencil icon
+import { recipeData } from "./defaultRecipeData";
 axios.defaults.baseURL = "http://localhost:3001";
 
 const Header: React.FC = () => {
@@ -27,7 +28,9 @@ const Header: React.FC = () => {
         </Link>
         <nav className="flex items-center space-x-6">
           <button
-            onClick={() => navigate("/createRecipe")}
+            onClick={() =>
+              navigate("/createRecipe", { state: { recipe: recipeData } })
+            }
             className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition"
           >
             <Plus size={20} />
